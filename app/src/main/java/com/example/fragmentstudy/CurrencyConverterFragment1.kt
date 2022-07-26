@@ -47,9 +47,36 @@ class CurrencyConverterFragment1 : Fragment() { // 프래그먼트에 주 생성
             listOf("USD", "EUR", "JPY", "KRW")
         )
 
+        currencySelectionArrayAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
         fromCurrencySpinner.adapter = currencySelectionArrayAdapter
         toCurrencySpinner.adapter = currencySelectionArrayAdapter
 
-        return view
-    }
+        val itemSelectedListener = object : AdapterView.OnItemSelectedListener {    // 익명 클래스
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                result.text = calculateCurrency(
+                    amount.text.toString().toDouble(),
+                    fromCurrencySpinner.selectedItem.toString(),
+                    toCurrencySpinner.selectedItem.toString()
+                ).toString()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+
+        }
+        fromCurrencySpinner.onItemSelectedListener = itemSelectedListener
+        toCurrencySpinner.onItemSelectedListener = itemSelectedListener
+
+        calculateBtn.setOnClickListener {
+            result.text =calculateCurrency(
+                amount.text.toString().toDouble(),
+            fromCurrencySpinner.selectedItem.toString(),
+            toCurrencySpinner.selectedItem.toString()
+            ).toString()
+        }
+
+            return view
+        }
 }
