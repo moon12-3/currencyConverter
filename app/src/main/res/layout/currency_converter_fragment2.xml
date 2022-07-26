@@ -3,6 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+    <TextView
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:id="@+id/exchange_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,24 +22,7 @@
         android:inputType="numberDecimal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="from"
-        android:textColor="#777"/>
-    <Spinner
-        android:id="@+id/from_currency"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="to"
-        android:textColor="#777"/>
-    <Spinner
-        android:id="@+id/to_currency"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/calculate"
         android:layout_width="match_parent"

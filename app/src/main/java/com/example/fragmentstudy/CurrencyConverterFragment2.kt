@@ -9,7 +9,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 
-class CurrencyConverterFragment1 : Fragment() { // 프래그먼트에 주 생성자는 만들지 X
+class CurrencyConverterFragment2 : Fragment() { // 프래그먼트에 주 생성자는 만들지 X
+
     val currencyExchangeMap = mapOf(
         "USD" to 1.0,   // Key to Value
         "EUR" to 0.9,
@@ -27,63 +28,47 @@ class CurrencyConverterFragment1 : Fragment() { // 프래그먼트에 주 생성
         return currencyExchangeMap[to]!! * USDAmount
     }
 
+    private lateinit var  fromCurrency : String
+    private lateinit var toCurrency : String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(
-            R.layout.currency_converter_fragment1,
+            R.layout.currency_converter_fragment2,
             container,
             false
         )
         val calculateBtn = view.findViewById<Button>(R.id.calculate)
         val amount = view.findViewById<EditText>(R.id.amount)
         val result = view.findViewById<TextView>(R.id.result)
-        val fromCurrencySpinner = view.findViewById<Spinner>(R.id.from_currency)
-        val toCurrencySpinner = view.findViewById<Spinner>(R.id.to_currency)
+        val exchangeType = view.findViewById<TextView>(R.id.exchange_type)
 
-        val currencySelectionArrayAdapter = ArrayAdapter<String>(
-            view.context,
-            android.R.layout.simple_spinner_item,
-            listOf("USD", "EUR", "JPY", "KRW")
-        )
+        fromCurrency = arguments?.getString("from", "USD")!!
+        toCurrency = arguments?.getString("to", "USD")!!
 
-        currencySelectionArrayAdapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-
-        fromCurrencySpinner.adapter = currencySelectionArrayAdapter
-        toCurrencySpinner.adapter = currencySelectionArrayAdapter
-
-        val itemSelectedListener = object : AdapterView.OnItemSelectedListener {    // 익명 클래스
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                result.text =if(amount.text.toString()=="")
-                    0.toString()
-                else {
-                    calculateCurrency(
-                        amount.text.toString().toDouble(),
-                        fromCurrencySpinner.selectedItem.toString(),
-                        toCurrencySpinner.selectedItem.toString()
-                    ).toString()
-                }
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-
+        exchangeType.text = "$fromCurrency => $toCurrency 변환"
+        result.text =if(amount.text.toString()=="")
+            0.toString()
+        else {
+            calculateCurrency(
+                amount.text.toString().toDouble(),
+                fromCurrency,
+                toCurrency
+            ).toString()+"원"
         }
-        fromCurrencySpinner.onItemSelectedListener = itemSelectedListener
-        toCurrencySpinner.onItemSelectedListener = itemSelectedListener
 
         calculateBtn.setOnClickListener {
             result.text =if(amount.text.toString()=="")
-                0.toString()
+                "0.0"
             else {
                 calculateCurrency(
                     amount.text.toString().toDouble(),
-                    fromCurrencySpinner.selectedItem.toString(),
-                    toCurrencySpinner.selectedItem.toString()
-                ).toString()
+                    fromCurrency,
+                    toCurrency
+                ).toString()+"원"
             }
         }
 
@@ -95,14 +80,28 @@ class CurrencyConverterFragment1 : Fragment() { // 프래그먼트에 주 생성
                 else {
                     calculateCurrency(
                         amount.text.toString().toDouble(),
-                        fromCurrencySpinner.selectedItem.toString(),
-                        toCurrencySpinner.selectedItem.toString()
-                    ).toString()
+                        fromCurrency,
+                        toCurrency
+                    ).toString()+"원"
                 }
             }
             override fun afterTextChanged(p0: Editable?) {}
         })
 
             return view
+        }
+
+        companion object {
+            fun newInstance(from:String, to:String) : CurrencyConverterFragment2 {
+                val fragment = CurrencyConverterFragment2()
+
+                // 반응 객체를 만들고 필요한 데이터 저장
+                val args = Bundle()
+                args.putString("from", from)
+                args.putString("to", to)
+                fragment.arguments = args
+
+                return fragment
+            }
         }
 }
