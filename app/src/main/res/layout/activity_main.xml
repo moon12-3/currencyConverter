@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-
-
+    <LinearLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+    <TextView
+        android:textSize="20sp"
+        android:id="@+id/result_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
 </LinearLayout>
